@@ -1,0 +1,29 @@
+{
+  "name": "personal-blog-server",
+  "version": "0.0.0",
+  "description": "build on koa2 with microservice arch",
+  "main": "index.js",
+  "scripts": {
+    "run": "node --harmony index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FebV/Personal-Blog-Server-Side.git"
+  },
+  "keywords": [
+    "mordern",
+    "skill",
+    "stack"
+  ],
+  "author": "FebV",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FebV/Personal-Blog-Server-Side/issues"
+  },
+  "homepage": "https://github.com/FebV/Personal-Blog-Server-Side#readme",
+  "dependencies": {
+    "koa": "^2.0.0-alpha.7",
+    "koa-router": "^7.0.1"
+  }
+}
