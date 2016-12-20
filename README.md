@@ -2,6 +2,7 @@
 
 using koa2  
 using async/await  
+using koa-router@next
 
 ## build
 npm install
