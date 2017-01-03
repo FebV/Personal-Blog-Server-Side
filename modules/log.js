@@ -1,11 +1,28 @@
+//log module
+//it can log on console, or save log at some saver like nosql db or file system
+
 //  level 1 :
 //      Method + Url + Unix timestamp
+//
 //  level 2 :
-//      Method + Url + Unix timestamp + source ip + handle time
+//      Method + Url + Unix timestamp
+//      + source IP + handle time
+//
+//  level 3 :
+//      Method + Url + Unix timestamp
+//      + source IP + handle time
+//      + request body + resonse body
 
+//  log saver
+//      where to save log
+//      default don't save
+//
 const log = class Log {
-    constructor(level = 2) {
+    constructor(level = 3, logSaver = null) {
         this.level = level;
+        this.saver = logSaver;
+        this.printLog = this.printLog.bind(this);
+        this.saveLog = this.saveLog.bind(this);
     }
 
     async log(ctx, next) {
@@ -42,12 +59,15 @@ const log = class Log {
         const log = await this.log(...arguments);
         console.log(log);
     }
-}
 
-//     // console.log(`${method} ${url} ${ip} ${time}ms ${ctx.status}`);
-//     // console.log(`${JSON.stringify(ctx.request.body)}`);
-//     // console.log(`${ctx.body}`);
-// }
+    async saveLog() {
+        if(this.saver === null)
+            throw new Error('no saver assigned');
+        const log = await this.log(...arguments);
+        console.log(this.saver);
+        await this.saver.save(log);
+    }
+}
 
 
 module.exports = log;
