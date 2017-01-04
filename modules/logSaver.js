@@ -1,39 +1,50 @@
-//save log to local disk
-//log : plain object => file or db
-//log dir must go with the last slash
 const fs = require('fs');
-
-const logSaver = class LogSaver {
-    constructor({type = 'file', logDir = __dirname+'/../log/'}) {
-        this.type = 'file';
-        this.dir = logDir;
-        this.filename = 'api.log';
-
+const configReader = require('./configReader')();
+//log saver interface
+//include implements like
+//  FileLogSaver
+//  MongoDBLogSaver
+class LogSaver {
+    constructor() {
         this.save = this.save.bind(this);
-        this.checkDirExist = this.checkDirExist.bind(this);
-        this.mkdir = this.mkdir.bind(this);
+        this.checkAccess = this.checkAccess.bind(this);
     }
 
     async save(log) {
-        console.log(this.type);
-        if(this.type === 'file') {
-            let result = await this.checkDirExist(this.dir);
-            console.log(result);
-            if(!result) {
-                await this.mkdir(this.dir);
-            }
-            await new Promise( (reslove, reject) => {
-                fs.appendFile(this.dir + 'api.log', `${JSON.stringify(log)}\n` , {}, err => {
-                    if(err)
-                        reject('error occur when write log into file');
-                    else {
-                        reslove();
-                    }
-                });
-            });
-        }
+        //virtual function
     }
-    async checkDirExist(path) {
+    async checkAccess(path) {
+        //virtual function
+    }
+}
+
+
+class FileLogSaver extends LogSaver {
+    constructor() {
+        super();
+        this.dir = configReader.getLog('dir');
+        this.filename = configReader.getLog('filename');
+
+    }
+
+    async save(log) {
+        let result = await this.checkAccess(this.dir);
+        console.log('file log save');
+        if(!result) {
+            await this.mkdir(this.dir);
+        }
+        await new Promise( (reslove, reject) => {
+            fs.appendFile(this.dir + this.filename, `${JSON.stringify(log)}\n` , {}, err => {
+                if(err)
+                    reject('error occur when write log into file');
+                else {
+                    reslove();
+                }
+            });
+        });
+    }
+
+    async checkAccess(path) {
         let result = false;
         await new Promise((resolve, reject) => {
             fs.access(path, err => {
@@ -44,6 +55,7 @@ const logSaver = class LogSaver {
         return result; 
     }
 
+//  private function
     async mkdir(path) {
         await new Promise((resolve, reject) => {
             fs.mkdir(path, err => {
@@ -55,16 +67,18 @@ const logSaver = class LogSaver {
             });
         });
     }
+}
 
-    async testCheckDirExist() {
-        console.log(await this.chechDirExist('../log/'));
+class MongoDBLogSaver extends LogSaver {
+    constructor() {
+        super();
     }
 }
 
-function test() {
-    new logSaver({type: 'file'}).testCheckDirExist();//save({qwe: 'qwe'});
+const logSaver = function(type) {
+    if(type === 'file') {
+        return new FileLogSaver();
+    }
 }
-
-// test();
 
 module.exports = logSaver;

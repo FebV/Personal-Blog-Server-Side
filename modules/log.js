@@ -17,7 +17,7 @@
 //      where to save log
 //      default don't save
 //
-const log = class Log {
+class Log {
     constructor(level = 3, logSaver = null) {
         this.level = level;
         this.saver = logSaver;
@@ -69,5 +69,7 @@ const log = class Log {
     }
 }
 
-
+const log = function(level, logSaver) {
+    return new Log(...arguments);
+}
 module.exports = log;
