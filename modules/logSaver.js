@@ -29,7 +29,6 @@ class FileLogSaver extends LogSaver {
 
     async save(log) {
         let result = await this.checkAccess(this.dir);
-        console.log('file log save');
         if(!result) {
             await this.mkdir(this.dir);
         }

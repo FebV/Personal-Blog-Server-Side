@@ -8,6 +8,10 @@ class ConfigReader {
     getLog(key) {
         return this.config.log[key];
     }
+
+    getMongoDb(key) {
+        return this.config.mongodb[key];
+    }
 }
 
 const cr = function(path) {

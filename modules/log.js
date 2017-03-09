@@ -64,7 +64,6 @@ class Log {
         if(this.saver === null)
             throw new Error('no saver assigned');
         const log = await this.log(...arguments);
-        console.log(this.saver);
         await this.saver.save(log);
     }
 }

@@ -11,7 +11,7 @@ const articles = require('./routes/articles');
 
 //log module at level 3, by file system
 const log = myLog(3, logSaver('file'));
-app.use( log.printLog );
+// app.use( log.printLog );
 app.use( log.saveLog );
 
 
