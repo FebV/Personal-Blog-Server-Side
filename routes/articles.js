@@ -3,8 +3,8 @@ const col = require('../modules/dbConnect');
 
 router.get('/', 
     async (ctx, next) => {
-        let articleCol = await col('article');
-        const articles = articleCol.find();
+        let articleCol = await col('articles');
+        const articles = await articleCol.find();
         const a = await articles.toArray();
         ctx.body = a;
     }

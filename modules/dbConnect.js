@@ -2,35 +2,18 @@
 
 const MongoClient = require('mongodb').MongoClient;
 const url = require('./configReader')().getMongoDb('url');
-let con;
-const connect = async collection => {
-    await MongoClient.connect(url)
-    .then(
-        db => {
-            col = db.collection(collection);
-        }
-    ).catch(err => {
-        console.log('connect fail');
-        con = 'not work';
-        //throw new Error('Connect Fail');
-    });
-    return con;
-}
 
-module.exports = async (collection) => {
-    if(con)
+const connect = (async () => {
+    let con;
+    try{
+        con = await MongoClient.connect(url)
         return con;
-    else{
-    await MongoClient.connect(url)
-    .then(
-        db => {
-            col = db.collection(collection);
-        }
-    ).catch(err => {
-        console.log('connect fail');
-        con = 'not work';
-        //throw new Error('Connect Fail');
-    });
-    return con;
+    } catch(e) {
+        throw new Error('fail to connect to MongoDB');
     }
-};
+})();
+
+module.exports = async (col) => {
+    let con = await connect;
+    return con.collection(col)
+}

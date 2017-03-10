@@ -1,14 +1,12 @@
 let con = require ('./modules/dbConnect');
 
 let art = async () => {
-    console.log(await con());
+    try{
+        const article = await con('article');
+        console.log(await article.find().toArray());
+    } catch(e) {
+        console.log('something wrong');
+    }
 }
-art();
-
-let con2 = require ('./modules/dbConnect');
-let art2 = async() => {
-    console.log(await con2());
-}
-setTimeout(() => {
-    art2();
-}, 2000);
+// art();
+console.log('end');
