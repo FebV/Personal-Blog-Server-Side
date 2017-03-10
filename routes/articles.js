@@ -1,18 +1,19 @@
 const router = require('koa-router')();
 const col = require('../modules/dbConnect');
+const Article = require('../models/Article');
 
 router.get('/', 
     async (ctx, next) => {
-        let articleCol = await col('articles');
-        const articles = await articleCol.find();
-        const a = await articles.toArray();
-        ctx.body = a;
+        const article = await Article.getAll();
+        ctx.stdResponse({data: article});
     }
 )
 
 router.post('/', 
-    (ctx, next) => {
-        ctx.body = 'post article';
+    async (ctx, next) => {
+        const article = new Article(ctx.request.body);
+        await article.save();
+        ctx.stdResponse({});
     }
 )
 module.exports = router;

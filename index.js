@@ -10,9 +10,9 @@ const router = koaRouter({prefix: '/api'});
 const articles = require('./routes/articles');
 
 //log module at level 3, by file system
-const log = myLog(3, logSaver('file'));
+// const log = myLog(3, logSaver('file'));
 // app.use( log.printLog );
-app.use( log.saveLog );
+// app.use( log.saveLog );
 
 
 //a index
@@ -27,6 +27,14 @@ router.use('/articles', articles.routes());
 
 //body parser
 app.use(bodyParser());
+
+// bind standard response format
+app.use(async (ctx, next) => {
+    ctx.stdResponse = ({code = 0, message = 'OK', data = null}) => {
+        ctx.body = JSON.stringify({code, message, data});
+    }
+    await next();
+})
 
 //register routers
 app.use(router.routes());
