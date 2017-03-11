@@ -1,9 +1,12 @@
 # Personal Blog Server Side
 
 using koa2  
-using async/await  
+using async/await instead of Promise  
 using koa-router@next  
 using a self-made, decent log module  
+based on mongodb  
+seperated config file  
+using ORM  
 
 
 ## build
