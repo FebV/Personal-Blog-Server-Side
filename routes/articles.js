@@ -4,8 +4,15 @@ const Article = require('../models/Article');
 
 router.get('/', 
     async (ctx, next) => {
-        const article = await Article.getAll();
-        ctx.stdResponse({data: article});
+        const articles = await Article.getAll();
+        ctx.stdResponse({data: articles});
+    }
+)
+
+router.get('/:id', 
+    async (ctx, next) => {
+        const article = await Article.getOne({id: ctx.params.id});
+        article ? ctx.stdResponse({data: article}) : ctx.stdResponse({code: 1, message: 'Not Found'});
     }
 )
 
