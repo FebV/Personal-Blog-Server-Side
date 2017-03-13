@@ -10,9 +10,9 @@ const router = koaRouter({prefix: '/api'});
 const articles = require('./routes/articles');
 
 //log module at level 3, by file system
-const log = myLog(3, logSaver('file'));
+// const log = myLog(3, logSaver('file'));
 // app.use( log.printLog );
-app.use( log.saveLog );
+// app.use( log.saveLog );
 
 
 //a index
@@ -35,6 +35,19 @@ app.use(async (ctx, next) => {
     }
     await next();
 })
+
+//check dbConnect availability
+app.use(async (ctx, next) => {
+    try{
+        const db = require('./modules/dbConnect');
+        const status = await db('articles');
+        await next();
+    }catch({message}){
+        ctx.stdResponse({code: 1, message});
+        //ctx.body = JSON.stringify({code: 1, message: 'Unable To Connect Database', data: null});
+    }
+});
+
 
 //register routers
 app.use(router.routes());

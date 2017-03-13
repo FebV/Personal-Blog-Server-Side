@@ -22,7 +22,7 @@ class Article extends Model {
     valiAndLoad({title, time, content}) {
         const vali = title && time && content;
         if(!vali)
-            throw new Error('wrong format of Article');
+            throw new Error('wrong format of a Article');
         this.modelData.title = title;
         this.modelData.time = time;
         this.modelData.content = content;

@@ -1,5 +1,4 @@
 const router = require('koa-router')();
-const col = require('../modules/dbConnect');
 const Article = require('../models/Article');
 
 router.get('/', 
@@ -12,7 +11,7 @@ router.get('/',
 router.get('/:id', 
     async (ctx, next) => {
         const article = await Article.getOne({id: ctx.params.id});
-        article ? ctx.stdResponse({data: article}) : ctx.stdResponse({code: 1, message: 'Not Found'});
+        article ? ctx.stdResponse({data: article}) : ctx.stdResponse({code: 2, message: 'Not Found'});
     }
 )
 
