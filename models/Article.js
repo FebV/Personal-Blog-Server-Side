@@ -2,8 +2,8 @@ const Model = require('./Model');
 const ObjectID = require('mongodb').ObjectID;
 
 class Article extends Model {
-    constructor({title, time = getUnixTimeStamp(), content}) {
-        super({title, time, content});
+    constructor({title, content}) {
+        super({title, time: Article.getUnixTimeStamp(), content});
     }
 
     static async getAll() {
@@ -34,8 +34,5 @@ class Article extends Model {
     }
 }
 
-function getUnixTimeStamp() {
-    return Math.floor(new Date().getTime() / 1000);
-}
 
 module.exports = Article;

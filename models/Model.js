@@ -11,6 +11,10 @@ class Model {
 
     async save() {
     }
+
+    static getUnixTimeStamp() {
+    return Math.floor(new Date().getTime() / 1000);
+}
 }
 
 module.exports = Model;

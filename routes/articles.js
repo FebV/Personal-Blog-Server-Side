@@ -17,9 +17,10 @@ router.get('/:id',
 
 router.post('/', 
     async (ctx, next) => {
-        const article = new Article(ctx.request.body);
-        await article.save();
-        ctx.stdResponse({});
+        // const article = new Article(ctx.request.body);
+        // await article.save();
+        // ctx.stdResponse({});
+        ctx.body = 'unable to post';
     }
 )
 module.exports = router;
