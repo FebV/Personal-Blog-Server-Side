@@ -12,9 +12,8 @@ class Comment extends Model {
     }
     static async getByArticleId(id) {
         const commentCol = await Comment.getCol('comments');
-        id = 1 * id;
-        if(Number.isNaN(id))
-            throw new Error('param must be a number');
+        if(!ObjectID.isValid(id))
+            throw new Error('objectId is invalid');
         const result = await commentCol.find({articleId: id}).toArray();
         return result;
     }

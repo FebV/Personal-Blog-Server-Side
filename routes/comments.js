@@ -7,7 +7,8 @@ router.get('/', async (ctx, next) => {
 })
 
 router.post('/', async (ctx, next) => {
-    const comment = new Comment(ctx.request.body);
+    const obj = Object.assign({}, ctx.params, ctx.request.body);
+    const comment = new Comment(obj);
     await comment.save();
     ctx.stdResponse({});
 });
