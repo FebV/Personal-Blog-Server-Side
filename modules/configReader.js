@@ -1,3 +1,5 @@
+//read consif.js as a object to get value conveniently
+
 const fs = require('fs');
 class ConfigReader {
     constructor() {

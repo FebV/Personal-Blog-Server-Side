@@ -1,5 +1,7 @@
 //module of mongodb connection object
 
+//this module can hold the singleton connection
+
 const MongoClient = require('mongodb').MongoClient;
 const url = require('./configReader')().getMongoDb('url');
 

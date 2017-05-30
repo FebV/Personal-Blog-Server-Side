@@ -1,3 +1,6 @@
+//seperated log saver
+//decouple the saver from log core
+
 const fs = require('fs');
 const configReader = require('./configReader')();
 //log saver interface
