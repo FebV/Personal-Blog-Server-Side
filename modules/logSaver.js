@@ -72,12 +72,30 @@ class MongoDBLogSaver extends LogSaver {
     constructor() {
         super();
     }
+
+    async save(log) {
+        const Log = require('../models/Log');
+        let newLog = new Log({content: log});
+        newLog.env = 'debug';
+        await newLog.save();
+    }
+
+    async checkAccess(path) {
+        return true;
+    }
+
 }
 
 const logSaver = function(type) {
     if(type === 'file') {
         return new FileLogSaver();
     }
+
+    if(type == 'db') {
+        return new MongoDBLogSaver();
+    }
+
+    throw new Error('no log saver assigned');
 }
 
 module.exports = logSaver;

@@ -28,7 +28,7 @@ class Comment extends Model {
     }
 
     async save() {
-        const articleCol = await Comment.getCol('comments');    
+        const articleCol = await Comment.getCol('comments');
         await articleCol.insert(this.modelData);
     }
 }

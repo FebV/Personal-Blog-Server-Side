@@ -11,9 +11,9 @@ const articles = require('./routes/articles');
 const comments = require('./routes/comments');
 
 // log module at level 3, by file system
-// const log = myLog(3, logSaver('file'));
+const log = myLog(3, logSaver('db'));
 // app.use( log.printLog );
-// app.use( log.saveLog );
+app.use( log.saveLog );
 
 
 //a index

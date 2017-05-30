@@ -4,8 +4,9 @@
   "description": "build on koa2 with microservice arch",
   "main": "index.js",
   "scripts": {
-    "run": "node --harmony index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "run": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "debug": "supervisor node index.js"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "koa-logger": "^2.0.0",
     "koa-router": "^7.0.1",
     "mongodb": "^2.2.24",
-    "redis": "^2.7.1"
+    "redis": "^2.7.1",
+    "supervisor": "^0.12.0"
   }
 }
