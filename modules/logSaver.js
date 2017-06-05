@@ -86,7 +86,23 @@ class MongoDBLogSaver extends LogSaver {
     async checkAccess(path) {
         return true;
     }
+}
 
+class RpcLogSaver extends LogSaver {
+    constructor() {
+        super();
+    }
+
+    async save(log) {
+        const net = require('net');
+        const client = net.createConnection({port: 8888}, () => {
+            
+            client.write(JSON.stringify(log)+'\r\n', () => {
+                client.end();
+            });
+        
+        });
+    }
 }
 
 const logSaver = function(type) {
@@ -96,6 +112,10 @@ const logSaver = function(type) {
 
     if(type == 'db') {
         return new MongoDBLogSaver();
+    }
+
+    if(type == 'rpc') {
+        return new RpcLogSaver();
     }
 
     throw new Error('no log saver assigned');
