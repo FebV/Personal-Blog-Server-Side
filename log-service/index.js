@@ -2,6 +2,34 @@ const net = require('net');
 
 let counter = 0;
 let msgStr = null;
+
+const server = net.createServer((c) => {
+  console.log('client connected');
+
+  c.on('end', () => {
+    console.log('client disconnected');
+  });
+
+  c.on('data', data => {
+      if(msgStr === null)
+        msgStr = data.toString();
+      else
+        msgStr += data.toString();
+  });
+
+  c.on('error', () => {
+    c.end();
+  })
+
+});
+
+server.on('error', (err) => {
+  throw err;
+});
+server.listen(8888, () => {
+  console.log('server bound');
+});
+
 let intv = setInterval(async () => {
     if(msgStr === null)
         return;
@@ -17,28 +45,3 @@ let intv = setInterval(async () => {
         console.log(`handling ${i}th of msgArr`);
     }
 }, 1000);
-const server = net.createServer((c) => {
-  console.log('client connected');
-
-
-  c.on('end', () => {
-    console.log('client disconnected');
-  });
-
-  c.on('data', data => {
-      if(msgStr === null)
-        msgStr = data.toString();
-      else
-        msgStr += data.toString();
-      console.log(msgStr);
-  });
-
-});
-
-
-server.on('error', (err) => {
-  throw err;
-});
-server.listen(8888, () => {
-  console.log('server bound');
-});

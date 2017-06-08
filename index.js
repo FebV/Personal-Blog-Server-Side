@@ -12,7 +12,7 @@ const comments = require('./routes/comments');
 
 // log module at level 3, by file system
 const log = myLog(3, logSaver('rpc'));
-// app.use( log.printLog );
+app.use( log.printLog );
 app.use( log.saveLog );
 
 

@@ -91,17 +91,25 @@ class MongoDBLogSaver extends LogSaver {
 class RpcLogSaver extends LogSaver {
     constructor() {
         super();
+        this.client = this.initConnection();
+    }
+
+    initConnection() {
+        const net = require('net');
+        return new Promise( (resolve, reject) => {
+            const c = net.createConnection({port: 8888}, () => {
+                resolve(c);
+            });
+            c.on('error', () => {
+                c.end();
+            })
+        });
     }
 
     async save(log) {
-        const net = require('net');
-        const client = net.createConnection({port: 8888}, () => {
-            
-            client.write(JSON.stringify(log)+'\r\n', () => {
-                client.end();
-            });
+        const client = await this.client;
+        client.write(JSON.stringify(log)+'\r\n');
         
-        });
     }
 }
 
